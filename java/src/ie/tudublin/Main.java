@@ -60,8 +60,6 @@ public class Main
 		System.out.println(a.getName());
 		System.out.println("C: " + c.getName());
 		
-
-
 		m.helloProcessing();
 	}
 	
