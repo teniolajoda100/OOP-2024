@@ -92,33 +92,31 @@ public class Arrays extends PApplet
 		
 	}
  
-	public void draw()
-	{	
-
+	public void draw() {    
 		background(250);
-		float w = width / (float)months.length;
-		for(int i = 0 ; i < months.length ;  i ++)
-		{
-			//Variable to shift the bar chart into the axis
-			float n = (float) i + 0.55f;
-			float x = map1(n, 0, months.length, 0, width-30);
-			rect(x, height, w, -rainfall[i]);
+		float barWidth = (width - 100) / (float)months.length; // Calculate the width of each bar
+	
+		// Find the maximum rainfall value
+		float maxRainfall = max(rainfall);
+	
+		for(int i = 0; i < months.length; i++) {
+			float x = 50 + i * barWidth; // Starting x position of the bar
+			float barHeight = map(rainfall[i], 0, maxRainfall, 0, height - 100); // Map the height of the bar
+	
+			// Draw the bar
+			fill(0, 0, 255);
+			rect(x, height - 50, barWidth, -barHeight); // Draw from the bottom up
+	
+			// Draw the month labels
+			textAlign(CENTER, CENTER);
+			fill(0);
+			text(months[i], x + barWidth / 2, height - 30);
 		}
-		//Drawing the axis lines
-		int x1= 65;
-		int y1 = 750;
-		int y2 = 40;
-
-		stroke(250, 0, 0); 
-		line(x1, y1, x1, y2);
-		
-		x1 = 5;
-		//X2 is where he line ends
-		int x2 = 980;
-		//Y1 used to alter where the line  starts from
-		y1 = 640;
-		y2 = 130;
-		line(x1,y1,x2,y1);
-
+	
+		// Draw the axis lines
+		stroke(0);
+		line(50, height - 50, width - 50, height - 50); // X-axis
+		line(50, height - 50, 50, 50); // Y-axis
 	}
+
 }
