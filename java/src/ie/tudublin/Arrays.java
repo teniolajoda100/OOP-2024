@@ -9,7 +9,7 @@ public class Arrays extends PApplet
 	String[] months = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
 
 	float[] rainfall = {200, 260, 300, 150, 100, 50, 10, 40, 67, 160, 400, 420};
-
+	boolean showBarChart = true; //Boolean to switch 
 	public float map1(float a, float b, float c, float d, float e)
 	{
 		float r1 = c -b;
@@ -94,11 +94,11 @@ public class Arrays extends PApplet
 
 	public void draw() {    
 		background(0);
+		if (showBarChart) {
 		float barWidth = (width - 100) / (float)months.length; // Calculate the width of each bar
-	
 		// Find the maximum rainfall value
 		float maxRainfall = max(rainfall);
-		int rainfallx = 0;
+		//int rainfallx = 0;
 		for(int i = 0; i < months.length; i++) {
 			float x = 50 + i * barWidth; // Starting x position of the bar
 			float barHeight = map(rainfall[i], 0, maxRainfall, 0, height - 100); // Map the height of the bar
@@ -117,7 +117,27 @@ public class Arrays extends PApplet
 			text(months[i], x + barWidth / 2, height - 30);
 
 		}
-		
+	}
+		else {
+		// Draw the trend line
+        stroke(255);
+        strokeWeight(1); // Increase stroke weight for points
+        noFill(); // Set rendering mode to draw only points
+		beginShape();
+        for (int i = 0; i < months.length - 1; i++) {
+            float x1 = 50 + i * ((width - 100) / (float)(months.length - 1));
+            float y1 = map(rainfall[i], 0, max(rainfall), height - 100, 50);
+            float x2 = 50 + (i + 1) * ((width - 100) / (float)(months.length - 1));
+            float y2 = map(rainfall[i + 1], 0, max(rainfall), height - 100, 50);
+            line(x1, y1, x2, y2);
+            // Draw month labels
+            textAlign(CENTER, CENTER);
+            fill(250);
+            text(months[i], x1, height - 30);
+		}
+		endShape();
+	}
+
 	
 		    // Draw the y-axis values
 		textAlign(RIGHT, CENTER);
@@ -127,13 +147,19 @@ public class Arrays extends PApplet
 			text(i, 45, y); 
 			// Draw small lines outwards from the y-axis
 			line(45, y,50, y);
+			strokeWeight(1);
 
 		}
 
 		stroke(250);
+		strokeWeight(0);
 		line(50, height - 50, width - 50, height - 50); // X-axis
 		line(50, height - 50, 50, 50); // Y-axis
 	
+}
+public void mouseClicked() {
+	// Toggle between displaying the bar chart and trend line
+	showBarChart = !showBarChart;
 }
 	
 }
