@@ -31,8 +31,6 @@ public class Arrays extends PApplet
 		size(1100,700);
 
 		String[] m1 = months;
-		months[0] = "XXX";
-		print(m1[0]);
 		for(int i = 0; i < months.length; i ++)
 		{
 			println("Month: " + months[i] + "\t" + rainfall[i]);
@@ -92,31 +90,50 @@ public class Arrays extends PApplet
 		
 	}
  
+	
+
 	public void draw() {    
-		background(250);
+		background(0);
 		float barWidth = (width - 100) / (float)months.length; // Calculate the width of each bar
 	
 		// Find the maximum rainfall value
 		float maxRainfall = max(rainfall);
-	
+		int rainfallx = 0;
 		for(int i = 0; i < months.length; i++) {
 			float x = 50 + i * barWidth; // Starting x position of the bar
 			float barHeight = map(rainfall[i], 0, maxRainfall, 0, height - 100); // Map the height of the bar
-	
+			
+			float hue = map(i, 0, months.length, 0, 255);
+			float saturation = 255;
+			float brightness = 200;
+			// Set the fill color using HSB color mode
+			fill(hue, saturation, brightness);
 			// Draw the bar
-			fill(0, 0, 255);
 			rect(x, height - 50, barWidth, -barHeight); // Draw from the bottom up
-	
+			
 			// Draw the month labels
 			textAlign(CENTER, CENTER);
-			fill(0);
+			fill(250);
 			text(months[i], x + barWidth / 2, height - 30);
+
 		}
+		
 	
-		// Draw the axis lines
-		stroke(0);
+		    // Draw the y-axis values
+		textAlign(RIGHT, CENTER);
+		fill(250);
+		for (int i = 0; i <= 110; i += 10) {
+			float y = map(i, 0, 110, height - 50, 50); // Map y-coordinate
+			text(i, 45, y); 
+			// Draw small lines outwards from the y-axis
+			line(45, y,50, y);
+
+		}
+
+		stroke(250);
 		line(50, height - 50, width - 50, height - 50); // X-axis
 		line(50, height - 50, 50, 50); // Y-axis
-	}
-
+	
+}
+	
 }
