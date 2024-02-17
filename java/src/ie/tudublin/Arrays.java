@@ -2,14 +2,19 @@ package ie.tudublin;
 
 import processing.core.PApplet;
 
+//CLICK TO SWITCH BETWEEN THE GRAPHS // 
+
+
+
 
 
 public class Arrays extends PApplet
 {
 	String[] months = {"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"};
-
 	float[] rainfall = {200, 260, 300, 150, 100, 50, 10, 40, 67, 160, 400, 420};
-	boolean showBarChart = true; //Boolean to switch 
+	boolean showBarChart = true; //boolean to switch between the graphs
+	boolean showPieChart = false; 
+	boolean showLineChart = false;
 	public float map1(float a, float b, float c, float d, float e)
 	{
 		float r1 = c -b;
@@ -118,7 +123,7 @@ public class Arrays extends PApplet
 
 		}
 	}
-		else {
+		else if (showLineChart) {
 		// Draw the trend line
         stroke(255);
         strokeWeight(1); // Increase stroke weight for points
@@ -136,6 +141,33 @@ public class Arrays extends PApplet
             text(months[i], x1, height - 30);
 		}
 		endShape();
+	}
+	else {
+        // Draw the pie chart
+        float sum = 0;
+        for (float f : rainfall) {
+            sum += f;
+        }
+		float startAngle = 0;
+        for (int i = 0; i < months.length; i++) {
+            float angle = map(rainfall[i], 0, sum, 0, TWO_PI);
+            float endAngle = startAngle + angle;
+            float x = width / 2;
+            float y = height / 2;
+            float radius = (float) (min(width, height) * 0.4); // assign the result of min(width, height) to float
+            fill(map(i, 0, months.length, 0, 255), 255, 255);
+            arc(x, y, radius * 2, radius * 2, startAngle, endAngle);
+            startAngle = endAngle;
+            // draw month labels
+            float labelAngle = startAngle - angle / 2;
+            float labelX = x + cos(labelAngle) * (radius * 0.8f); 
+            float labelY = y + sin(labelAngle) * (radius * 0.8f); 
+            textAlign(CENTER, CENTER);
+            fill(255);
+            text(months[i], labelX, labelY);
+           
+			
+        }
 	}
 
 	
@@ -158,8 +190,21 @@ public class Arrays extends PApplet
 	
 }
 public void mouseClicked() {
-	// Toggle between displaying the bar chart and trend line
-	showBarChart = !showBarChart;
+    if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
+        // switching between displaying different chart types
+        if (showBarChart) {
+            showBarChart = false;
+            showPieChart = true;
+        } else if (showPieChart) {
+            showPieChart = false;
+            showLineChart = true;
+        } else if (showLineChart) {
+            showLineChart = false;
+            showBarChart = true;
+        }
+    }
+}
+
 }
 	
-}
+
