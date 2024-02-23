@@ -15,8 +15,14 @@ public class Life extends PApplet {
         
     }
     public void keyPressed() {
-        if (key == ' ') { // Check if the pressed key is the space bar
-            isPaused = !isPaused; // cpausing and unpausing
+        if (key == ' ') { // Toggle pause and resume
+            isPaused = !isPaused;
+        } else if (key == '1') { // Randomize the board
+            lifeBoard.randomise();
+        } else if (key == '2') { // Clear the board
+            lifeBoard.clear();
+        } else if (key == '3') { // Draw a cross shape
+            lifeBoard.drawCross();
         }
     }
 
@@ -95,6 +101,34 @@ public class Life extends PApplet {
                 }
             }
         }
+        public void clear() {
+            for (int i = 0; i < cols; i++) {
+                for (int j = 0; j < rows; j++) {
+                    board[i][j] = false; // clearing the board by setting all cells to dead
+                }
+            }
+        }
+        public void drawCross() {
+            int centerCol = cols / 2;
+            int centerRow = rows / 2;
+    
+            // drawingine of the cross
+            for (int i = -3; i <= 3; i++) {
+                int row = centerRow + i;
+                if (row >= 0 && row < rows) {
+                    board[centerCol][row] = true;
+                }
+            }
+    
+            // drawing line of the cross
+            for (int i = -3; i <= 3; i++) {
+                int col = centerCol + i;
+                if (col >= 0 && col < cols) {
+                    board[col][centerRow] = true;
+                }
+            }
+        }
+    
     
         private int countLiveNeighbors(int x, int y) {
             int count = 0;
