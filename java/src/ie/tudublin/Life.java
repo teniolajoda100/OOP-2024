@@ -1,29 +1,45 @@
-//C22419214
 package ie.tudublin;
 import processing.core.PApplet;
 
 public class Life extends PApplet {
     
     LifeBoard lifeBoard;
+    boolean isPaused = false; //variable to track the pause state
     
-
     public void setup()
     {
         lifeBoard = new LifeBoard(50, 50, this);
         lifeBoard.randomise();
         colorMode(HSB);
+        size(600, 600);
+        
+    }
+    public void keyPressed() {
+        if (key == ' ') { // Check if the pressed key is the space bar
+            isPaused = !isPaused; // cpausing and unpausing
+        }
     }
 
-    public void settings()
+     public void settings()
     {
         size(600, 600);
     }
 
     public void draw()
     {
-        background(0); // black background
-        lifeBoard.update(); // the state of the board
-        lifeBoard.render(); // rendering the board
+        if (!isPaused) { // if not paused
+            background(0); // the state of the board
+            lifeBoard.update();
+        }
+        lifeBoard.render();
+        if(isPaused) {
+            fill(0); // Set fill color to black
+            rect(0, 0, width, height); // Draw a black rectangle over the entire screen to indicate paused state
+            fill(255); // Set fill color to white for text
+            textSize(32); // Set text size
+            textAlign(CENTER, CENTER); // Align text to be centered
+            text("Paused", width / 2, height / 2); // Display 'Paused' text in the center of the screen
+        }
     }
     class LifeBoard {
         private int cols, rows;
