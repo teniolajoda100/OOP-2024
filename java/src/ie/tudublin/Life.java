@@ -133,7 +133,7 @@ public class Life extends PApplet {
         }
         
         public void drawGosperGun(int col, int row) {
-            // gosper gun pattern (you'll need to define this based on its structure)
+            // gosper gun pattern 
             int[][] gosperGun = {
             {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0},
             {1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1},
