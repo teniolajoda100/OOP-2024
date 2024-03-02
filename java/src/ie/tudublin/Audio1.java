@@ -82,8 +82,10 @@ public class Audio1 extends PApplet
         float cy = height / 2;
 
         switch (mode) {
-			case 0:
-                background(0);
+		case 0:
+        
+
+    
                 // Code goes here
                 break;
         case 1:
@@ -103,16 +105,104 @@ public class Audio1 extends PApplet
             }
             break;
         case 2:
-            {
-                    // Code goes here
-            }
+        background(0);
+        colorMode(HSB);
+        float lineWidth2 = 2; //a fixed line width or base it on screen size
+        strokeWeight(lineWidth2);
+    
+        // calculate the number of samples per screen edge
+        int samplesPerEdge = ab.size() / 4;
+    
+        //the bottom edge
+        for (int i = 0; i < samplesPerEdge; i++) {
+            float x = map(i, 0, samplesPerEdge, 0, width);
+            float amplitude = ab.get(i) * 0.25f * height; 
+            float hue = map(i, 0, samplesPerEdge, 0, 255);
+            stroke(hue, 255, 255);
+            line(x, height, x, height - amplitude);
+        }
+    
+        // draw the right edge
+        for (int i = 0; i < samplesPerEdge; i++) {
+            float y = map(i, 0, samplesPerEdge, height, 0);
+            float amplitude = ab.get(i + samplesPerEdge) * 0.25f * width;
+            float hue = map(i, 0, samplesPerEdge, 0, 255);
+            stroke(hue, 255, 255);
+            line(width, y, width - amplitude, y);
+        }
+    
+        // draw the top edge
+        for (int i = 0; i < samplesPerEdge; i++) {
+            float x = map(i, 0, samplesPerEdge, width, 0);
+            float amplitude = ab.get(i + 2 * samplesPerEdge) * 0.25f * height;
+            float hue = map(i, 0, samplesPerEdge, 0, 255);
+            stroke(hue, 255, 255);
+            line(x, 0, x, amplitude);
+        }
+    
+        // draw the left edge
+        for (int i = 0; i < samplesPerEdge; i++) {
+            float y = map(i, 0, samplesPerEdge, 0, height);
+            float amplitude = ab.get(i + 3 * samplesPerEdge) * 0.25f * width;
+            float hue = map(i, 0, samplesPerEdge, 0, 255);
+            stroke(hue, 255, 255);
+            line(0, y, amplitude, y);
+        }
+    
+        break;
         case 3:
             // Code goes here
         case 4:
         
             
             break;
+        case 5:
+        background(0);
+        colorMode(HSB);
+        strokeWeight(2);
 
+        // waveform for the bottom and top
+        for (int i = 0; i < ab.size(); i++) {
+                float x = map(i, 0, ab.size(), 0, width);
+                float yBottom = map(ab.get(i), -1, 1, height, height * 0.75f); // Bottom waveform
+                float yTop = map(ab.get(i), -1, 1, 0, height * 0.25f); // Top waveform
+    
+             // set color based on amplitude
+                float hue = map(ab.get(i), -1, 1, 0, 255);
+                 stroke(hue, 255, 255);
+    
+                // draw the bottom and top waveforms
+                if (i > 0) { // ensure we have a previous point to draw from
+                         float xPrev = map(i - 1, 0, ab.size(), 0, width);
+                         float yBottomPrev = map(ab.get(i - 1), -1, 1, height, height * 0.75f);
+                         float yTopPrev = map(ab.get(i - 1), -1, 1, 0, height * 0.25f);
+        
+                        line(xPrev, yBottomPrev, x, yBottom); // connect bottom waveform points
+                        line(xPrev, yTopPrev, x, yTop); // connect top waveform points
+    }
+}
+
+       // the waveform for the left and right sides
+       for (int i = 0; i < ab.size(); i++) {
+                float y = map(i, 0, ab.size(), height, 0);
+                float xLeft = map(ab.get(i), -1, 1, 0, width * 0.25f); // left waveform
+                float xRight = map(ab.get(i), -1, 1, width, width * 0.75f); // right waveform
+    
+                // set color based on amplitude
+                float hue = map(ab.get(i), -1, 1, 0, 255);
+                stroke(hue, 255, 255);
+    
+                // draw the left and right waveforms
+                if (i > 0) { // ensuring we have a previous point to draw from
+                        float yPrev = map(i - 1, 0, ab.size(), height, 0);
+                        float xLeftPrev = map(ab.get(i - 1), -1, 1, 0, width * 0.25f);
+                        float xRightPrev = map(ab.get(i - 1), -1, 1, width, width * 0.75f);
+        
+                        line(xLeftPrev, yPrev, xLeft, y); // connecting left waveform points
+                        line(xRightPrev, yPrev, xRight, y); // connecting right waveform points
+    }
+}
+                break;
         }
         
 
