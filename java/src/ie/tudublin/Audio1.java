@@ -151,7 +151,32 @@ public class Audio1 extends PApplet
     
         break;
         case 3:
-            // Code goes here
+        background(0);
+        colorMode(HSB);
+        float sum1 = 0;
+    
+        // he sum of the absolute values of the samples in the audio buffer
+        for (int i = 0; i < ab.size(); i++) {
+            sum1 += abs(ab.get(i));
+        }
+    
+        // calculating the average amplitude
+        float averageAmplitude = sum / ab.size();
+    
+        // Use lerp to smoothly transition the smoothedAmplitude towards the averageAmplitude
+        smoothedAmplitude = lerp(smoothedAmplitude, averageAmplitude, 0.1f);
+    
+        // map the smoothed amplitude to a circle diameter
+        float diameter = map(smoothedAmplitude, 0, 1, 0, width);
+    
+        
+        float hue1 = map(smoothedAmplitude, 0, 1, 0, 255);
+        stroke(hue1, 255, 255);
+        noFill(); // disabling filling for shapes
+    
+        // draw the circle at the center of the screen
+        ellipse(width / 2, height / 2, diameter, diameter);
+        break;
         case 4:
         
             
@@ -180,8 +205,8 @@ public class Audio1 extends PApplet
                         line(xPrev, yBottomPrev, x, yBottom); // connect bottom waveform points
                         line(xPrev, yTopPrev, x, yTop); // connect top waveform points
     }
-}
 
+}         
        // the waveform for the left and right sides
        for (int i = 0; i < ab.size(); i++) {
                 float y = map(i, 0, ab.size(), height, 0);
