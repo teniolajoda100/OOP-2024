@@ -177,10 +177,35 @@ public class Audio1 extends PApplet
         // draw the circle at the center of the screen
         ellipse(width / 2, height / 2, diameter, diameter);
         break;
+
+        //used similar method to what i used in case 3
         case 4:
-        
-            
-            break;
+        background(0);
+        colorMode(HSB);
+        float sum2 = 0;
+
+        for (int i = 0; i < ab.size(); i++) {
+        sum2 += abs(ab.get(i));
+        }
+
+    // calculate the average amplitude
+        float averageAmplitude2 = sum / ab.size();
+
+        // using lerp to smoothly transition the smoothedAmplitude towards the averageAmplitude
+        smoothedAmplitude = lerp(smoothedAmplitude, averageAmplitude2, 0.1f);
+
+    // mapping the smoothed amplitude to a square size
+        float squareSize = map(smoothedAmplitude, 0, 1, 0, width * 0.5f); // Adjust the multiplier for size as needed
+
+    // setting the colour based on the smoothed amplitude
+    float hue2 = map(smoothedAmplitude, 0, 1, 0, 255);
+    stroke(hue2, 255, 255);
+    noFill(); 
+
+    //centering the rectangle 
+    rect((width - squareSize) / 2, (height - squareSize) / 2, squareSize, squareSize);
+    break;
+
         case 5:
         background(0);
         colorMode(HSB);
