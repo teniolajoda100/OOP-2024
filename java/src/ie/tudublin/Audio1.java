@@ -82,7 +82,7 @@ public class Audio1 extends PApplet
         float cy = height / 2;
 
         switch (mode) {
-		case 0:
+		case 0: // incomplete
         
 
     
